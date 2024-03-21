@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDlc6tJcvPWMu_vra61TjYMPkfgZ1OLulU',
-  authDomain: 'triobudget.firebaseapp.com',
-  projectId: 'triobudget',
-  storageBucket: 'triobudget.appspot.com',
-  messagingSenderId: '1045692393299',
-  appId: '1:1045692393299:web:480aef687351bc71f523a6',
-  measurementId: 'G-KWDJ44W8NH',
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID,
+  measurementId: import.meta.env.VITE_MEASUREMENTID,
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
