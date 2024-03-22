@@ -1,20 +1,32 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { auth } from '../firebaseConfig'; // Adjust the import path as necessary
+import { onAuthStateChanged } from 'firebase/auth';
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: { isLoggedIn: false },
   reducers: {
-    login(state) {
-      state.isLoggedIn = true;
-    },
-    logout(state) {
-      state.isLoggedIn = false;
+    setLoginState(state, action) {
+      state.isLoggedIn = action.payload;
     },
   },
 });
 
 export const authActions = authSlice.actions;
 
-export const store = configureStore({
-  reducer: authSlice.reducer,
+const store = configureStore({
+  reducer: { auth: authSlice.reducer },
 });
+
+// Firebase Auth State Check
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, dispatch login action
+    store.dispatch(authActions.setLoginState(true));
+  } else {
+    // User is signed out, dispatch logout action
+    store.dispatch(authActions.setLoginState(false));
+  }
+});
+
+export { store };

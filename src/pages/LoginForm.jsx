@@ -1,12 +1,10 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig.js";
 import { useNavigate } from "react-router-dom";
-import { authActions } from "../store";
 
 const Login = () => {
-    const dispatch = useDispatch();
     const history = useNavigate();
     const [inputs, setInputs] = useState({
         email: "",
@@ -18,22 +16,19 @@ const Login = () => {
             [e.target.name]: e.target.value,
         }));
     };
-    const sendRequest = async () => {
-        const res = await axios
-            .post("http://localhost:5000/api/login", {
-                email: inputs.email,
-                password: inputs.password,
-            })
-            .catch((err) => console.log(err));
-        const data = await res.data;
-        return data;
-    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // send http request
-        sendRequest()
-            .then(() => dispatch(authActions.login()))
-            .then(() => history("/user"));
+        signInWithEmailAndPassword(auth, inputs.email, inputs.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                history("/authtest")
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage)
+            });
     };
     return (
         <div>
