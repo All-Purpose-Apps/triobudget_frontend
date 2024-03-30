@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword, getAuth, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import app from '../utils/firebaseConfig';
+import { useNavigate } from "react-router-dom";
 
 const auth = getAuth(app)
 
 const Login = () => {
 
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
     const [password, setPassword] = useState('');
 
     const handleLogin = async (e) => {
@@ -15,17 +17,12 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, email, password)
             // Handle login success
             console.log("Logged in successfully!");
+            navigate("/test");
         } catch (error) {
             console.error('Error logging in:', error);
             // Handle login error
         }
     };
-
-    const handleLogout = async () => {
-        await signOut(auth);
-        console.log('User signed out');
-    }
-
     return (
         <div>
             <h1>Login Page</h1>
@@ -46,7 +43,6 @@ const Login = () => {
                 />
                 <button type="submit">Login</button>
             </form>
-            <button onClick={handleLogout}>Logout</button>
         </div>
     );
 };
