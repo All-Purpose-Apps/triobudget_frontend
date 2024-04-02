@@ -1,8 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
+  const response = await fetch('your-endpoint-here');
+  const data = await response.json();
+  return data;
+});
 
 const transactionSlice = createSlice({
   name: 'transaction',
-  initialState: { transactions: [] },
+  initialState: { transactions: [], status: 'idle', error: null },
   reducers: {
     addTransaction: (state, action) => {
       state.push(action.payload);
@@ -20,6 +26,20 @@ const transactionSlice = createSlice({
         transaction.user = user;
         transaction.date = date;
       }
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchTransactions.pending, (state) => {
+          state.status = 'loading';
+        })
+        .addCase(fetchTransactions.fulfilled, (state, action) => {
+          state.status = 'succeeded';
+          state.transactions = action.payload;
+        })
+        .addCase(fetchTransactions.rejected, (state, action) => {
+          state.status = 'failed';
+          state.error = action.error.message;
+        });
     },
   },
 });
