@@ -2,9 +2,10 @@ import axios from 'axios';
 
 const testProtected = async () => {
   try {
+    const token = await localStorage.getItem('token');
     const response = await axios.get('http://localhost:3000/protected-route', {
       headers: {
-        Authorization: `${localStorage.getItem('token')}`,
+        Authorization: `${token}`,
       },
     });
     console.log(response.data);
