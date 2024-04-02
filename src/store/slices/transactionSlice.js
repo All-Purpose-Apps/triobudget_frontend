@@ -1,8 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
-  const response = await fetch('your-endpoint-here');
-  const data = await response.json();
+  const token = localStorage.getItem('token');
+  const response = await axios.get('http://localhost:3000/api_v1/transactions', {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  const data = await response.data;
+  localStorage.setItem('transactions', JSON.stringify(data));
   return data;
 });
 
@@ -11,14 +18,14 @@ const transactionSlice = createSlice({
   initialState: { transactions: [], status: 'idle', error: null },
   reducers: {
     addTransaction: (state, action) => {
-      state.push(action.payload);
+      state.transactions.push(action.payload);
     },
     removeTransaction: (state, action) => {
-      return state.filter((transaction) => transaction.id !== action.payload);
+      state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
     },
     updateTransaction: (state, action) => {
       const { id, description, amount, category, user, date } = action.payload;
-      const transaction = state.find((transaction) => transaction.id === id);
+      const transaction = state.transactions.find((transaction) => transaction.id === id);
       if (transaction) {
         transaction.description = description;
         transaction.amount = amount;
@@ -27,20 +34,20 @@ const transactionSlice = createSlice({
         transaction.date = date;
       }
     },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchTransactions.pending, (state) => {
-          state.status = 'loading';
-        })
-        .addCase(fetchTransactions.fulfilled, (state, action) => {
-          state.status = 'succeeded';
-          state.transactions = action.payload;
-        })
-        .addCase(fetchTransactions.rejected, (state, action) => {
-          state.status = 'failed';
-          state.error = action.error.message;
-        });
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTransactions.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchTransactions.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.transactions = action.payload;
+      })
+      .addCase(fetchTransactions.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
 

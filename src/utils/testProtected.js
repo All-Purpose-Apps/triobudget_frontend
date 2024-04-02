@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import app from './firebaseConfig';
 
 const testProtected = async () => {
   try {

@@ -4,12 +4,20 @@ import app from '../utils/firebaseConfig';
 import Table from '../components/Table';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTransactions } from '../store/slices/transactionSlice';
 
-const auth = getAuth(app);
-
-const data = [{ amount: 12, category: 'bills', date: '2024-10-01' }];
 
 const TestPage = () => {
+    const auth = getAuth(app);
+    const dispatch = useDispatch();
+    const transactions = useSelector((state) => state.transactionSlice.transactions);
+    // Fetching the transaction list
+    useEffect(() => {
+        dispatch(fetchTransactions());
+    }, [dispatch]);
+
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
@@ -26,7 +34,7 @@ const TestPage = () => {
         <div>
             <h1 className="text-center">Test Page</h1>
             <Button onClick={handleSignOut}>Sign Out</Button>
-            <Table data={data} />
+            <Table data={transactions} />
         </div>
     );
 };
