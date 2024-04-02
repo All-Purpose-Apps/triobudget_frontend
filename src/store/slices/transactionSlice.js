@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const token = localStorage.getItem('token');
 
 export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
-  const token = localStorage.getItem('token');
   const response = await axios.get('http://localhost:3000/api_v1/transactions', {
     headers: {
       Authorization: `${token}`,
@@ -11,6 +11,15 @@ export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions
   const data = await response.data;
   localStorage.setItem('transactions', JSON.stringify(data));
   return data;
+});
+
+export const deleteTransaction = createAsyncThunk('transaction/deleteTransaction', async (id) => {
+  await axios.delete(`http://localhost:3000/api_v1/transactions/${id}`, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return id;
 });
 
 const transactionSlice = createSlice({
@@ -47,10 +56,13 @@ const transactionSlice = createSlice({
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(deleteTransaction.fulfilled, (state, action) => {
+        state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
       });
   },
 });
 
-export const { addTransaction, removeTransaction, updateTransaction } = transactionSlice.actions;
+export const { addTransaction, updateTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;

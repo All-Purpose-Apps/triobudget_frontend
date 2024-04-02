@@ -1,9 +1,7 @@
 import React from 'react';
-import fetchTransactions from '../store/slices/transactionSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { Button } from 'react-bootstrap';// Assuming this action exists and works as intended
 
-const Table = ({ data }) => {
-
+const Table = ({ data, handleDelete }) => {
     return (
         <table className="table table-striped">
             <thead>
@@ -12,6 +10,7 @@ const Table = ({ data }) => {
                     <th>Amount</th>
                     <th>Category</th>
                     <th>Description</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +20,9 @@ const Table = ({ data }) => {
                         <td>{item.amount}</td>
                         <td>{item.category}</td>
                         <td>{item.description}</td>
+                        <td>
+                            <Button variant="danger" onClick={() => handleDelete(item._id)}>Delete</Button>
+                        </td>
                     </tr>
                 ))}
             </tbody>
