@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
-const EnterTransaction = () => {
+const EnterTransaction = ({ handleAddTransaction }) => {
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
@@ -9,12 +9,13 @@ const EnterTransaction = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add your logic to handle the form submission here
+        const newTransaction = { description, amount, category, date };
+        handleAddTransaction(newTransaction);
     };
 
     return (
         <div>
-            <Form onSubmit={handleSubmit} className="d-flex flex-wrap">
+            <Form onSubmit={(e) => handleSubmit(e)} className="d-flex flex-wrap">
                 <Row className="align-items-center">
                     <Col xs="auto">
                         <Form.Group controlId="description">

@@ -13,6 +13,14 @@ export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions
   return data;
 });
 
+export const addTransaction = createAsyncThunk('transaction/addTransaction', async (transaction) => {
+  const response = await axios.post('http://localhost:3000/api_v1/transactions', transaction, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return await response.data;
+});
 export const deleteTransaction = createAsyncThunk('transaction/deleteTransaction', async (id) => {
   await axios.delete(`http://localhost:3000/api_v1/transactions/${id}`, {
     headers: {
@@ -26,12 +34,6 @@ const transactionSlice = createSlice({
   name: 'transaction',
   initialState: { transactions: [], status: 'idle', error: null },
   reducers: {
-    addTransaction: (state, action) => {
-      state.transactions.push(action.payload);
-    },
-    removeTransaction: (state, action) => {
-      state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
-    },
     updateTransaction: (state, action) => {
       const { id, description, amount, category, user, date } = action.payload;
       const transaction = state.transactions.find((transaction) => transaction.id === id);
@@ -59,10 +61,13 @@ const transactionSlice = createSlice({
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
+      })
+      .addCase(addTransaction.fulfilled, (state, action) => {
+        state.transactions.push(action.payload);
       });
   },
 });
 
-export const { addTransaction, updateTransaction } = transactionSlice.actions;
+export const { updateTransaction } = transactionSlice.actions;
 
 export default transactionSlice.reducer;
