@@ -1,20 +1,40 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';// Assuming this action exists and works as intended
+import React, { useState, useMemo } from 'react';
+import { Table, Button } from 'react-bootstrap';
+import { sort } from 'fast-sort';
 
-const Table = ({ data, handleDelete }) => {
+const DataTable = ({ data, handleDelete }) => {
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+    const sortedItems = useMemo(() => {
+        let sortableItems = [...data];
+        if (sortConfig.key) {
+            sortableItems = sortConfig.direction === 'ascending'
+                ? sort(sortableItems).by([{ asc: u => u[sortConfig.key] }])
+                : sort(sortableItems).by([{ desc: u => u[sortConfig.key] }]);
+        }
+        return sortableItems;
+    }, [data, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
     return (
-        <table className="table table-striped">
+        <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Category</th>
-                    <th>Description</th>
+                    <th onClick={() => requestSort('date')}>Date</th>
+                    <th onClick={() => requestSort('amount')}>Amount</th>
+                    <th onClick={() => requestSort('category')}>Category</th>
+                    <th onClick={() => requestSort('description')}>Description</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {data.map((item, index) => (
+                {sortedItems.map((item, index) => (
                     <tr key={index}>
                         <td>{item.date}</td>
                         <td>{item.amount}</td>
@@ -26,8 +46,8 @@ const Table = ({ data, handleDelete }) => {
                     </tr>
                 ))}
             </tbody>
-        </table>
+        </Table>
     );
 };
 
-export default Table;
+export default DataTable;

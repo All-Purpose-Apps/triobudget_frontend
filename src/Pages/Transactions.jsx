@@ -51,7 +51,7 @@ const Transactions = () => {
             <h1 className="text-center mb-4">Transactions</h1>
             <Button variant="primary" onClick={handleSignOut} className="mb-4">Sign Out</Button>
             <EnterTransaction handleAddTransaction={handleAddTransaction} />
-            <Table data={transactions} handleDelete={handleDelete} />
+            {transactions && <Table data={transactions} handleDelete={handleDelete} />}
         </div>
     );
 };
