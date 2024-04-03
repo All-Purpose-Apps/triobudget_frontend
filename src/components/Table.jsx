@@ -34,17 +34,20 @@ const DataTable = ({ data, handleDelete }) => {
                 </tr>
             </thead>
             <tbody>
-                {sortedItems.map((item, index) => (
-                    <tr key={index}>
-                        <td>{item.date}</td>
-                        <td>{item.amount}</td>
-                        <td>{item.category}</td>
-                        <td>{item.description}</td>
-                        <td>
-                            <Button variant="danger" onClick={() => handleDelete(item._id)}>Delete</Button>
-                        </td>
-                    </tr>
-                ))}
+                {sortedItems.map((item, index) => {
+                    const date = new Date(item.date).toLocaleDateString();
+                    return (
+                        <tr key={index}>
+                            <td>{date}</td>
+                            <td>{item.amount}</td>
+                            <td>{item.category}</td>
+                            <td>{item.description}</td>
+                            <td>
+                                <Button variant="danger" onClick={() => handleDelete(item._id)}>Delete</Button>
+                            </td>
+                        </tr>
+                    )
+                })}
             </tbody>
         </Table>
     );
