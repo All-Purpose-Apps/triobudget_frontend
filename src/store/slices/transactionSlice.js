@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const token = localStorage.getItem('token');
 
-export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
+const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
   const response = await axios.get('http://localhost:3000/api_v1/transactions', {
     headers: {
       Authorization: `${token}`,
@@ -13,7 +13,7 @@ export const fetchTransactions = createAsyncThunk('transaction/fetchTransactions
   return data;
 });
 
-export const addTransaction = createAsyncThunk('transaction/addTransaction', async (transaction) => {
+const addTransaction = createAsyncThunk('transaction/addTransaction', async (transaction) => {
   const response = await axios.post('http://localhost:3000/api_v1/transactions', transaction, {
     headers: {
       Authorization: `${token}`,
@@ -21,7 +21,7 @@ export const addTransaction = createAsyncThunk('transaction/addTransaction', asy
   });
   return await response.data;
 });
-export const deleteTransaction = createAsyncThunk('transaction/deleteTransaction', async (id) => {
+const deleteTransaction = createAsyncThunk('transaction/deleteTransaction', async (id) => {
   await axios.delete(`http://localhost:3000/api_v1/transactions/${id}`, {
     headers: {
       Authorization: `${token}`,
@@ -30,22 +30,20 @@ export const deleteTransaction = createAsyncThunk('transaction/deleteTransaction
   return id;
 });
 
+const updateTransaction = createAsyncThunk('transaction/updateTransaction', async ({ id, data }) => {
+  debugger;
+  const response = await axios.put(`http://localhost:3000/api_v1/transactions/${id}`, data, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return response.data; // Return the updated transaction object instead of just the ID
+});
+
 const transactionSlice = createSlice({
   name: 'transaction',
   initialState: { transactions: [], status: 'idle', error: null },
-  reducers: {
-    updateTransaction: (state, action) => {
-      const { id, description, amount, category, user, date } = action.payload;
-      const transaction = state.transactions.find((transaction) => transaction.id === id);
-      if (transaction) {
-        transaction.description = description;
-        transaction.amount = amount;
-        transaction.category = category;
-        transaction.user = user;
-        transaction.date = date;
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTransactions.pending, (state) => {
@@ -64,10 +62,15 @@ const transactionSlice = createSlice({
       })
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.transactions.push(action.payload);
+      })
+      .addCase(updateTransaction.fulfilled, (state, action) => {
+        const index = state.transactions.findIndex((transaction) => transaction.id === action.payload.id);
+        if (index !== -1) {
+          state.transactions[index] = action.payload;
+        }
       });
   },
 });
 
-export const { updateTransaction } = transactionSlice.actions;
-
+export { fetchTransactions, addTransaction, deleteTransaction, updateTransaction };
 export default transactionSlice.reducer;

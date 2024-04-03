@@ -4,7 +4,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import app from '../utils/firebaseConfig';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, deleteTransaction, addTransaction } from '../store/slices/transactionSlice';
+import { fetchTransactions, deleteTransaction, addTransaction, updateTransaction } from '../store/slices/transactionSlice';
 // Components
 import Table from '../components/Table';
 import Button from 'react-bootstrap/Button';
@@ -41,6 +41,13 @@ const Transactions = () => {
     // Add transaction function
     const handleAddTransaction = (newTransaction) => {
         dispatch(addTransaction(newTransaction))
+            .then(() => {
+                setRefresh(true);
+            });
+    };
+
+    const handleUpdate = (transaction) => {
+        dispatch(updateTransaction(transaction))
             .then(() => {
                 setRefresh(true);
             });
