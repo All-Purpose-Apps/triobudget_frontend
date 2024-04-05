@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { onAuthStateChanged, getAuth, getIdToken } from 'firebase/auth';
+import { onAuthStateChanged, getAuth, getIdToken, signOut } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoginState } from './store/slices/authSlice';
 import app from './utils/firebaseConfig';
@@ -9,6 +9,7 @@ import SignUp from './Pages/SignUp'
 import Transactions from './Pages/Transactions';
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import TopNavBar from './components/TopNavBar';
 
 export default function App() {
 
@@ -30,9 +31,19 @@ export default function App() {
 
   const isLoggedIn = useSelector((state) => state.authSlice.isLoggedIn);
 
+  // Sign out function
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      console.log('User signed out successfully');
+    }).catch((error) => {
+      console.error('Error signing out:', error);
+    });
+  };
+
   return (
     <div>
       {isLoggedIn && <Navigate to='/test' />}
+      <TopNavBar handleSignOut={handleSignOut} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

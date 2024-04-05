@@ -3,10 +3,6 @@ import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 // //  Styles for the grid component
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import Button from 'react-bootstrap/Button';
-// Firebase Auth
-import { getAuth, signOut } from 'firebase/auth';
-import app from '../utils/firebaseConfig';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, deleteTransaction, addTransaction, updateTransaction } from '../store/slices/transactionSlice';
@@ -14,8 +10,6 @@ import { fetchTransactions, deleteTransaction, addTransaction, updateTransaction
 import EnterTransaction from '../components/EnterTransaction';
 
 const Transactions = () => {
-    // Firebase Auth
-    const auth = getAuth(app);
     // Redux
     const dispatch = useDispatch();
     const transactions = useSelector((state) => state.transactionSlice.transactions);
@@ -47,14 +41,7 @@ const Transactions = () => {
     }, [dispatch, refresh]);
 
 
-    // Sign out function
-    const handleSignOut = () => {
-        signOut(auth).then(() => {
-            console.log('User signed out successfully');
-        }).catch((error) => {
-            console.error('Error signing out:', error);
-        });
-    };
+
     // Delete transaction function  
     const handleDelete = (id) => {
         dispatch(deleteTransaction(id)).then(() => {
@@ -79,8 +66,6 @@ const Transactions = () => {
     return (
         <div>
             <h1>Transactions</h1>
-            <Button variant="primary" size="sm" className="m-2" onClick={handleSignOut}>Sign Out</Button>
-
             <div
                 className="ag-theme-quartz-dark" // applying the grid theme
                 style={{ height: 500 }} // the grid will fill the size of the parent container
