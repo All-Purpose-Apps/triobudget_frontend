@@ -8,6 +8,12 @@ dependencies:
   '@reduxjs/toolkit':
     specifier: ^2.2.2
     version: 2.2.2(react-redux@9.1.0)(react@18.2.0)
+  ag-grid-community:
+    specifier: ^31.2.0
+    version: 31.2.0
+  ag-grid-react:
+    specifier: ^31.2.0
+    version: 31.2.0(react-dom@18.2.0)(react@18.2.0)
   axios:
     specifier: ^1.6.8
     version: 1.6.8
@@ -1255,6 +1261,22 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  /ag-grid-community@31.2.0:
+    resolution: {integrity: sha512-Ija6X171Iq3mFZASZlriQIIdEFqA71rZIsjQD6KHy5lMmxnoseZTX2neThBav1gvr6SA6n5B2PD6eUHdZnrUfw==}
+    dev: false
+
+  /ag-grid-react@31.2.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ObFdPmF3EC7/xWZX8NjrZjURePyFa72MWjb1ZgUqDP7Wq09OSXXyKBN1qXmfUIT3h4o5+os6tCQEqoo7Op+3ZA==}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      ag-grid-community: 31.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}

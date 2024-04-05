@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
+// //  Styles for the grid component
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import Button from 'react-bootstrap/Button';
 // Firebase Auth
 import { getAuth, signOut } from 'firebase/auth';
 import app from '../utils/firebaseConfig';
@@ -6,8 +11,6 @@ import app from '../utils/firebaseConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, deleteTransaction, addTransaction, updateTransaction } from '../store/slices/transactionSlice';
 // Components
-import Table from '../components/Table';
-import Button from 'react-bootstrap/Button';
 import EnterTransaction from '../components/EnterTransaction';
 
 const Transactions = () => {
@@ -18,11 +21,31 @@ const Transactions = () => {
     const transactions = useSelector((state) => state.transactionSlice.transactions);
     const [refresh, setRefresh] = useState(false);
 
+    const autoSizeStrategy = {
+        type: 'fitGridWidth',
+        columnLimits: [
+            {
+                colId: 'select',
+                maxWidth: 50
+            }
+        ]
+    };
+
+    const colDefs =
+
+        [
+            { field: "select", sortable: true, checkboxSelection: true },
+            { field: "date", sortable: true },
+            { field: "amount" },
+            { field: "description" },
+        ]
+
     // Fetching the transactions
     useEffect(() => {
         dispatch(fetchTransactions());
         setRefresh(false);
     }, [dispatch, refresh]);
+
 
     // Sign out function
     const handleSignOut = () => {
@@ -54,11 +77,25 @@ const Transactions = () => {
     };
 
     return (
-        <div className="d-flex flex-column align-items-center">
-            <h1 className="text-center mb-4">Transactions</h1>
-            <Button variant="primary" onClick={handleSignOut} className="mb-4">Sign Out</Button>
+        <div>
+            <h1>Transactions</h1>
+            <Button variant="primary" size="sm" className="m-2" onClick={handleSignOut}>Sign Out</Button>
+
+            <div
+                className="ag-theme-quartz-dark" // applying the grid theme
+                style={{ height: 500 }} // the grid will fill the size of the parent container
+            >
+
+                <AgGridReact
+                    rowData={transactions}
+                    columnDefs={colDefs}
+                    rowSelection='multiple'
+                    autoSizeStrategy={autoSizeStrategy}
+                    onRowSelected={(e) => console.log(e.data)}
+                />
+            </div>
             <EnterTransaction handleAddTransaction={handleAddTransaction} />
-            {transactions && <Table data={transactions} handleDelete={handleDelete} />}
+            {/* {transactions && <Table data={transactions} handleDelete={handleDelete} />} */}
         </div>
     );
 };

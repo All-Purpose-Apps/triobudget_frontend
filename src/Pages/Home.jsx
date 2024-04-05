@@ -1,26 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
 
 const Home = () => {
     return (
-        <Container fluid className="text-center d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
             <div>
                 <h1>Welcome to TrioBudget</h1>
-                <Row>
-                    <Col>
-                        <Link to="/login">
-                            <Button variant="primary">Login</Button>
-                        </Link>
-                    </Col>
-                    <Col>
-                        <Link to="/signup">
-                            <Button variant="success">Signup</Button>
-                        </Link>
-                    </Col>
-                </Row>
+                <Link to="/login"><button>Login</button></Link>
+                <Link to="/signup"><button>Signup</button></Link>
             </div>
-        </Container>
+        </div>
+
     );
 };
 
