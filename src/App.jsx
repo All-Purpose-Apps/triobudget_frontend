@@ -10,6 +10,8 @@ import Transactions from './Pages/Transactions';
 import { Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import TopNavBar from './components/TopNavBar';
+import { Container, Row, Col } from 'react-bootstrap';
+import SideBar from './components/SideBar';
 
 export default function App() {
 
@@ -41,16 +43,27 @@ export default function App() {
   };
 
   return (
-    <div>
+    <Container fluid>
       {isLoggedIn && <Navigate to='/test' />}
-      <TopNavBar handleSignOut={handleSignOut} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        {isLoggedIn && <Route path="/test" element={<Transactions />} />}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </div>
+      <Row>
+        <Col className="p-0">
+          <TopNavBar handleSignOut={handleSignOut} />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={2}>
+          <SideBar />
+        </Col>
+        <Col>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            {isLoggedIn && <Route path="/test" element={<Transactions />} />}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Col>
+      </Row>
+    </Container>
   );
 }

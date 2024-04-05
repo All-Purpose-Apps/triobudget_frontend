@@ -19,7 +19,8 @@ export default function TopNavBar({ handleSignOut }) {
                         <Nav.Link as={Link} to="/login">Login</Nav.Link>
                         <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
                         {isLoggedIn && <Nav.Link as={Link} to="/test">Transactions</Nav.Link>}
-                        {isLoggedIn && <Button variant="primary" size="sm" className="m-2" onClick={handleSignOut}>Sign Out</Button>}
+                        {isLoggedIn && <Nav.Link onClick={handleSignOut}>Sign out</Nav.Link>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

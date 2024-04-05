@@ -5,17 +5,23 @@ const EnterTransaction = ({ handleAddTransaction }) => {
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
+    const [account, setAccount] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newTransaction = { description, amount, category, date };
+        const newTransaction = { description, amount, category, date, account };
         handleAddTransaction(newTransaction);
+        setDescription('');
+        setAmount('');
+        setCategory('');
+        setAccount('');
+        setDate(new Date().toISOString().split('T')[0]);
     };
 
     return (
         <div>
-            <Form onSubmit={(e) => handleSubmit(e)} className="d-flex flex-wrap">
+            <Form onSubmit={(e) => handleSubmit(e)} className="d-flex flex-wrap p-2">
                 <Row className="align-items-center">
                     <Col xs="auto">
                         <Form.Group controlId="description">
@@ -57,6 +63,19 @@ const EnterTransaction = ({ handleAddTransaction }) => {
                     </Col>
 
                     <Col xs="auto">
+                        <Form.Group controlId="account">
+                            <Form.Label className="visually-hidden">Account</Form.Label>
+                            <Form.Control
+                                className="mb-2"
+                                type="text"
+                                placeholder="Enter Account"
+                                value={account}
+                                onChange={(e) => setAccount(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+
+                    <Col xs="auto">
                         <Form.Group controlId="date">
                             <Form.Label className="visually-hidden">Date</Form.Label>
                             <Form.Control
@@ -67,6 +86,7 @@ const EnterTransaction = ({ handleAddTransaction }) => {
                             />
                         </Form.Group>
                     </Col>
+
 
                     <Col xs="auto">
                         <Button variant="primary" type="submit" className="mb-2">
