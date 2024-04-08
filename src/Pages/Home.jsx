@@ -1,16 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 const Home = () => {
     return (
-        <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+        <div className="d-flex justify-content-center align-items-center text-center" style={{ minHeight: "100vh" }}>
             <div>
                 <h1>Welcome to TrioBudget</h1>
-                <Link to="/login"><button>Login</button></Link>
-                <Link to="/signup"><button>Signup</button></Link>
+                <Link to="/login" className="m-2">
+                    <Button variant="primary">Login</Button>
+                </Link>
+                <Link to="/signup" className="m-2">
+                    <Button variant="success">Signup</Button>
+                </Link>
             </div>
         </div>
-
     );
 };
 

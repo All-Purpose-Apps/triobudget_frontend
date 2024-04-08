@@ -1,75 +1,65 @@
 import React, { useState } from 'react';
-import { createUser } from '../store/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { createUser } from '../store/slices/userSlice';
 import app from '../utils/firebaseConfig';
-const auth = getAuth(app)
+
+const auth = getAuth(app);
 
 const SignUp = () => {
     const dispatch = useDispatch();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
+    const [formState, setFormState] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormState(prevState => ({ ...prevState, [name]: value }));
+    };
 
     const handleSignUp = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        const { name, email, password, confirmPassword } = formState;
+        if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+        }
         try {
-            if (password !== confirmPassword) {
-                alert("Passwords do not match.")
-            } else {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = {
-                    name: name,
-                    uid: userCredential.user.uid,
-                    email: email
-                };
-                dispatch(createUser(user))
-                navigate("/test");
-            }
-
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            dispatch(createUser({
+                name,
+                uid: userCredential.user.uid,
+                email
+            }));
+            navigate("/test");
         } catch (error) {
-            // Handle signup error
             console.error('Error signing up:', error);
         }
     };
 
     return (
-        <div>
+        <div className="container">
             <h2>Sign Up</h2>
             <form onSubmit={handleSignUp}>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    autoComplete='name'
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    autoComplete='username'
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    autoComplete='current-password'
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    autoComplete='current-password'
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <button onClick={handleSignUp}>Sign Up</button>
+                {['name', 'email', 'password', 'confirmPassword'].map((field) => (
+                    <div className="form-group" key={field}>
+                        <input
+                            type={field === 'email' ? 'email' : 'text'}
+                            className="form-control"
+                            name={field}
+                            placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('confirmPassword', 'Confirm Password')}
+                            value={formState[field]}
+                            autoComplete={field === 'password' || field === 'confirmPassword' ? 'current-password' : field}
+                            onChange={handleChange}
+                        />
+                    </div>
+                ))}
+                <button type="submit" className="btn btn-primary">Sign Up</button>
             </form>
         </div>
     );
