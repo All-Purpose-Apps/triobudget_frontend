@@ -1,0 +1,2 @@
+<h1 style={{ color: 'black' }}>Checking Total: ${totalByAccount('Checking').toFixed(2)}</h1>
+                <h1 style={{ color: 'black' }}>Expenses Total: ${totalByAccount('Expenses').toFixed(2)}</h1>

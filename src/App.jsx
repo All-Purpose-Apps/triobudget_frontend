@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import TopNavBar from './components/TopNavBar';
 import { Container, Row, Col } from 'react-bootstrap';
 import SideBar from './components/SideBar';
+import { getUser } from './store/slices/userSlice';
+
 
 export default function App() {
 
@@ -24,6 +26,8 @@ export default function App() {
         dispatch(setLoginState(true));
         getIdToken(user, true).then((idToken) => {
           localStorage.setItem('token', idToken)
+          localStorage.setItem('uid', user.uid)
+          dispatch(getUser(user.uid))
         });
       } else {
         dispatch(setLoginState(false));
