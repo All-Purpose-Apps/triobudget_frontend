@@ -30,7 +30,7 @@ const Transactions = () => {
                 {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} />}
                 <AddCategory />
                 <Button variant="primary" className="m-2" onClick={() => setShowForm(!showForm)}>Add Transaction</Button>
-                <div className="charts-container" style={{ display: 'flex' }}>
+                <div className="charts-container" style={{ display: 'flex', justifyContent: 'center' }}>
                     {uniqueAccounts.map((account, index) =>
                         <div key={index}>
                             <Chart transactions={transactions.filter(t => t.account === account)} account={account} />
