@@ -8,6 +8,9 @@ dependencies:
   '@reduxjs/toolkit':
     specifier: ^2.2.2
     version: 2.2.2(react-redux@9.1.0)(react@18.2.0)
+  ag-charts-react:
+    specifier: ^9.2.1
+    version: 9.2.1(ag-charts-community@9.2.0)(react-dom@18.2.0)(react@18.2.0)
   ag-grid-community:
     specifier: ^31.2.0
     version: 31.2.0
@@ -1261,6 +1264,23 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  /ag-charts-community@9.2.0:
+    resolution: {integrity: sha512-dS5nPExh81owIIdyHli0TvWvSyhmZy2RncM/s3/KXpjAf3eiVN2fxfT2z+QxqsLyoms+fernp5cAuSju0peYXw==}
+    dev: false
+
+  /ag-charts-react@9.2.1(ag-charts-community@9.2.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-BtR0ybXmTCS0l2vcU/MrK773Z3j7rEqeQHyNaeDQ2QWEaxn5pW2mubPPN+Xpq+kuM3coX47hC8bK884pMXqI4g==}
+    peerDependencies:
+      ag-charts-community: 9.2.0
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      ag-charts-community: 9.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /ag-grid-community@31.2.0:
     resolution: {integrity: sha512-Ija6X171Iq3mFZASZlriQIIdEFqA71rZIsjQD6KHy5lMmxnoseZTX2neThBav1gvr6SA6n5B2PD6eUHdZnrUfw==}

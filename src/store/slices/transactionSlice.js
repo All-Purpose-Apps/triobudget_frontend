@@ -1,49 +1,51 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const token = localStorage.getItem('token');
+
+const baseURL = 'http://localhost:3000/api_v1/transactions';
+
+const getToken = () => localStorage.getItem('token');
 
 const fetchTransactions = createAsyncThunk('transaction/fetchTransactions', async () => {
-  const response = await axios.get('http://localhost:3000/api_v1/transactions', {
+  const response = await axios.get(baseURL, {
     headers: {
-      Authorization: `${token}`,
+      Authorization: getToken(),
     },
   });
-  const data = await response.data;
+  const data = response.data;
   localStorage.setItem('transactions', JSON.stringify(data));
   return data;
 });
 
 const addTransaction = createAsyncThunk('transaction/addTransaction', async (transaction) => {
-  const response = await axios.post('http://localhost:3000/api_v1/transactions', transaction, {
+  const response = await axios.post(baseURL, transaction, {
     headers: {
-      Authorization: `${token}`,
+      Authorization: getToken(),
     },
   });
-  return await response.data;
+  return response.data;
 });
+
 const deleteTransaction = createAsyncThunk('transaction/deleteTransaction', async (id) => {
-  await axios.delete(`http://localhost:3000/api_v1/transactions/${id}`, {
+  await axios.delete(`${baseURL}/${id}`, {
     headers: {
-      Authorization: `${token}`,
+      Authorization: getToken(),
     },
   });
   return id;
 });
 
 const updateTransaction = createAsyncThunk('transaction/updateTransaction', async ({ id, data }) => {
-  debugger;
-  const response = await axios.put(`http://localhost:3000/api_v1/transactions/${id}`, data, {
+  const response = await axios.put(`${baseURL}/${id}`, data, {
     headers: {
-      Authorization: `${token}`,
+      Authorization: getToken(),
     },
   });
-  return response.data; // Return the updated transaction object instead of just the ID
+  return response.data;
 });
 
 const transactionSlice = createSlice({
   name: 'transaction',
   initialState: { transactions: [], status: 'idle', error: null },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTransactions.pending, (state) => {
@@ -57,11 +59,11 @@ const transactionSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(deleteTransaction.fulfilled, (state, action) => {
-        state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
-      })
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.transactions.push(action.payload);
+      })
+      .addCase(deleteTransaction.fulfilled, (state, action) => {
+        state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
       })
       .addCase(updateTransaction.fulfilled, (state, action) => {
         const index = state.transactions.findIndex((transaction) => transaction.id === action.payload.id);
