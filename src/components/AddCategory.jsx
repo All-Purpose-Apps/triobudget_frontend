@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { updateUser } from '../store/slices/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const AddCategory = () => {
+const AddCategory = ({ user }) => {
 
     const dispatch = useDispatch();
-    // Get the user information from Redux store
-    const user = useSelector((state) => state.userSlice.user);
     const [category, setCategory] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const u = user
         const c = Array.isArray(u.category) ? [...u.category, category] : [category];
-        console.log(u)
-        dispatch(updateUser({ id: u.uid, data: { category: c } }));
-        setCategory('');
+        if (!category || category === '') {
+            alert("Please fill in Category field");
+        } else {
+            try {
+                dispatch(updateUser({ id: u.uid, data: { category: c } }))
+                alert(`Category "${category}" was added.`);
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setCategory('');
+            }
+        }
     };
     return (
         <div>

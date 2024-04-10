@@ -28,7 +28,7 @@ const Transactions = () => {
         <div>
             <div className="ag-theme-quartz-dark" style={{ height: '100vh' }}>
                 {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} />}
-                <AddCategory />
+                <AddCategory user={user} />
                 <Button variant="primary" className="m-2" onClick={() => setShowForm(!showForm)}>Add Transaction</Button>
                 <div className="charts-container" style={{ display: 'flex', justifyContent: 'center' }}>
                     {uniqueAccounts.map((account, index) =>

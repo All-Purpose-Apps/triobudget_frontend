@@ -7,6 +7,7 @@ const EnterTransaction = ({ handleAddTransaction, user }) => {
     const [category, setCategory] = useState('');
     const [account, setAccount] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const newTransaction = { description, amount, category, date, account };
@@ -66,7 +67,7 @@ const EnterTransaction = ({ handleAddTransaction, user }) => {
                                 onChange={(e) => setCategory(e.target.value)}
                             >
                                 <option value=''>Select Category</option>
-                                {user.categories.map((key) => <option value={key}>{key}</option>)}
+                                {user.categories.map((key, index) => <option key={index} value={key}>{key}</option>)}
                             </Form.Select>
                         </Form.Group>
                     </Col>
