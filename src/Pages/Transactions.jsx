@@ -30,17 +30,23 @@ const Transactions = () => {
         setSelectedRows(selectedRows);
     }, []);
 
-    const handleAddTransaction = newTransaction => dispatch(addTransaction(newTransaction));
+    const handleAddTransaction = (newTransaction) => {
+        setShowForm(false)
+        dispatch(addTransaction(newTransaction));
+    }
     const handleDelete = () => {
         selectedRows.forEach(row => {
             dispatch(deleteTransaction(row._id));
         });
     }
 
+    const handleClose = () => {
+        setShowForm(false);
+    }
     return (
         <div>
             <div className="ag-theme-quartz-dark" style={{ height: '100vh' }}>
-                {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} />}
+                {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} show={showForm} handleClose={handleClose} />}
                 {showCatForm && user && <AddCategory user={user} />}
                 <Button variant="primary" className="m-2" onClick={() => setShowForm(!showForm)}>Add Transaction</Button>
                 <Button variant="primary" className="m-2" onClick={() => setShowCatForm(!showCatForm)}>Add Category</Button>

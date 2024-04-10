@@ -3,13 +3,12 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { updateUser } from '../store/slices/userSlice';
 import { useDispatch } from 'react-redux';
 
-const AddCategory = ({ user }) => {
+const AddCategory = ({ user, handleHide }) => {
 
     const dispatch = useDispatch();
     const [category, setCategory] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
         const u = user
         const c = Array.isArray(u.category) ? [...u.category, category] : [category];
         if (!category || category === '') {
@@ -18,6 +17,7 @@ const AddCategory = ({ user }) => {
             try {
                 dispatch(updateUser({ id: u.uid, data: { category: c } }))
                 alert(`Category "${category}" was added.`);
+                handleHide();
             } catch (error) {
                 console.log(error)
             } finally {
