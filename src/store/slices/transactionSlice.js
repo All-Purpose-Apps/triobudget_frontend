@@ -63,7 +63,7 @@ const transactionSlice = createSlice({
         state.transactions.push(action.payload);
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
-        state.transactions = state.transactions.filter((transaction) => transaction.id !== action.payload);
+        state.transactions = state.transactions.filter((transaction) => transaction._id !== action.payload);
       })
       .addCase(updateTransaction.fulfilled, (state, action) => {
         const index = state.transactions.findIndex((transaction) => transaction.id === action.payload.id);
