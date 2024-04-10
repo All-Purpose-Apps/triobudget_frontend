@@ -30,14 +30,14 @@ function EnterTransaction({ handleAddTransaction, user }) {
             alert(`Category "${category}" does not exist. Please add it first.`);
             return;
         }
-        // Adjust amount based on transaction type
+
         amount = transactionType === 'debt' ? Math.abs(amount) * -1 : Math.abs(amount);
         const transactionData = { description, amount, category, account, date: formData.date };
         handleAddTransaction(transactionData);
         setFormData({
             description: '',
             amount: '',
-            transactionType: 'income', // Reset transactionType in formData
+            transactionType: 'income',
             category: '',
             account: '',
             date: new Date().toISOString().split('T')[0],
