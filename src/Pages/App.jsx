@@ -12,8 +12,10 @@ import { setLoginState } from '../store/slices/authSlice';
 import { getUser } from '../store/slices/userSlice';
 
 // Page & Component imports
-import Transactions from '../components/Transactions';
-import TopNavBar from '../components/TopNavBar';
+import Transactions from '../components/TransactionsComponents/Transactions';
+import TopNavBar from '../components/TransactionsComponents/TopNavBar';
+import SideBar from '../components/SideBar';
+import Settings from '../components/Settings';
 
 function App() {
   const auth = getAuth(app);
@@ -63,12 +65,18 @@ function App() {
     <Container fluid>
       <Row>
         <Col className="p-0">
-          <TopNavBar />
+          <TopNavBar handleSignOut={handleSignOut} />
         </Col>
       </Row>
       <Row>
+        <Col md={2}>
+          <SideBar />
+        </Col>
         <Col>
-          <Transactions />
+          <Routes>
+            <Route path="/" element={<Transactions />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
         </Col>
       </Row>
     </Container>

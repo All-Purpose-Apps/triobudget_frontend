@@ -10,9 +10,7 @@ const SideBar = ({ handleSignOut }) => {
                 <Nav.Item className="mb-2">
                     <h3 className="text-center mb-4">TrioBudget</h3>
                 </Nav.Item>
-                <Nav.Link as={Link} to="/transactions" className="text-white p-2 mb-2 bg-secondary rounded">Transactions</Nav.Link>
-                <Nav.Link as={Link} to="/settings" className="text-white p-2 mb-2 bg-secondary rounded">Settings</Nav.Link>
-                <Nav.Link className="text-white p-2 mb-2 bg-secondary rounded" onClick={handleSignOut}>Sign Out</Nav.Link>
+                <Nav.Link as={Link} to="/transactions/settings" className="text-white p-2 mb-2 bg-secondary rounded">Settings</Nav.Link>
             </Nav>
         </div>
     );

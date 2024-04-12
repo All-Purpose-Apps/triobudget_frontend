@@ -53,7 +53,7 @@ export default function Routing() {
             <div><Routes>
                 <Route path="/" element={isLoggedIn ?
                     <Navigate replace to="/transactions" /> : <Home />} />
-                <Route path="/transactions" element={isLoggedIn ?
+                <Route path="/transactions/*" element={isLoggedIn ?
                     <App /> : <Navigate replace to="/" />} />
                 <Route path="*" element={<Navigate replace to="/" />} />
             </Routes></div>

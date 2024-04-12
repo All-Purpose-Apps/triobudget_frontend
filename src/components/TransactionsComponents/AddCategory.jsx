@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { updateUser } from '../store/slices/userSlice';
+import { updateUser } from '../../store/slices/userSlice';
 import { useDispatch } from 'react-redux';
 
 const AddCategory = ({ user, handleHide }) => {

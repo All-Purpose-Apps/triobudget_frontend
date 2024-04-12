@@ -4,11 +4,11 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, addTransaction, deleteTransaction } from '../store/slices/transactionSlice';
+import { fetchTransactions, addTransaction, deleteTransaction } from '../../store/slices/transactionSlice';
 import EnterTransaction from './EnterTransaction';
 import AddCategory from './AddCategory';
 //DATA
-import { colDefs, autoSizeStrategy } from '../utils/ag-grid-data';
+import { colDefs, autoSizeStrategy } from '../../utils/ag-grid-data';
 import Chart from './ShowTotals';
 
 const Transactions = () => {
