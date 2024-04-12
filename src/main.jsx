@@ -2,15 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
-import EntryPoint from './EntryPoint'
 import store from './store/store'
 import './assets/css/styles.css'
+import Routing from './Routing'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <EntryPoint />
+        <Routing />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

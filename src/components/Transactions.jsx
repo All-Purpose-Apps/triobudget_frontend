@@ -5,11 +5,11 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, addTransaction, deleteTransaction } from '../store/slices/transactionSlice';
-import EnterTransaction from '../components/EnterTransaction';
-import AddCategory from '../components/AddCategory';
+import EnterTransaction from './EnterTransaction';
+import AddCategory from './AddCategory';
 //DATA
 import { colDefs, autoSizeStrategy } from '../utils/ag-grid-data';
-import Chart from '../components/ShowTotals';
+import Chart from './ShowTotals';
 
 const Transactions = () => {
     const gridRef = useRef(null);

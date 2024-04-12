@@ -53,6 +53,12 @@ const Login = () => {
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
+                <p style={{ textAlign: 'end' }}>
+                    <a style={{ cursor: 'pointer' }} onClick={() => console.log('clicked forgot password')}>
+                        Forgot Password?
+                    </a>
+                </p>
+
             </Form>
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
@@ -64,10 +70,9 @@ const Login = () => {
                         Close
                     </Button>
                 </Modal.Footer>
-                <p>Forgot Password?</p>
 
             </Modal>
-        </div>
+        </div >
     );
 };
 

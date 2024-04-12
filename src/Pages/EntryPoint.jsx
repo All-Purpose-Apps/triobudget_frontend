@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Container, Row, Col, Spinner, Button, Image, Collapse } from 'react-bootstrap';
-import Login from './components/AuthComponents/Login';
-import SignUp from './components/AuthComponents/SignUp';
-import clouds from './assets/clouds.mp4'
+import Login from '../components/AuthComponents/Login';
+import SignUp from '../components/AuthComponents/SignUp';
+import clouds from '../assets/clouds.mp4'
 
 export default function EntryPoint() {
 

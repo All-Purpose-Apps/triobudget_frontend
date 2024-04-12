@@ -49,7 +49,7 @@ const SignUp = () => {
                 {['name', 'email', 'password', 'confirmPassword'].map((field) => (
                     <div className="form-group" key={field}>
                         <input
-                            type={field === 'email' ? 'email' : 'text'}
+                            type={field === 'email' ? 'email' : field === 'password' ? 'password' : field === 'confirmPassword' ? 'password' : 'text'}
                             className="form-control mb-2"
                             name={field}
                             placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('confirmPassword', 'Confirm Password')}

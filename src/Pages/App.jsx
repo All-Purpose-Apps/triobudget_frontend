@@ -5,20 +5,19 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
 // Firebase imports
 import { getAuth, onAuthStateChanged, getIdToken, signOut } from 'firebase/auth';
-import app from './utils/firebaseConfig';
+import app from '../utils/firebaseConfig';
 
 // Redux actions
-import { setLoginState } from './store/slices/authSlice';
-import { getUser } from './store/slices/userSlice';
+import { setLoginState } from '../store/slices/authSlice';
+import { getUser } from '../store/slices/userSlice';
 
 // Page & Component imports
-import Transactions from './Pages/Transactions';
-import Settings from './components/Settings';
-import TopNavBar from './components/TopNavBar';
+import Transactions from '../components/Transactions';
+import TopNavBar from '../components/TopNavBar';
 
 function App() {
-  const dispatch = useDispatch();
   const auth = getAuth(app);
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
   const [loading, setLoading] = useState(true);
 
@@ -69,13 +68,7 @@ function App() {
       </Row>
       <Row>
         <Col>
-          <Routes>
-            <Route path="/" element={isLoggedIn ? <Navigate replace to="/transactions" /> : <Home />} />
-
-            <Route path="/transactions" element={isLoggedIn ? <Transactions /> : <Navigate replace to="/" />} />
-            <Route path="/settings" element={isLoggedIn ? <Settings /> : <Navigate replace to="/" />} />
-            <Route path="*" element={<Navigate replace to="/" />} />
-          </Routes>
+          <Transactions />
         </Col>
       </Row>
     </Container>
