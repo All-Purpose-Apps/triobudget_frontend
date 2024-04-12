@@ -36,7 +36,7 @@ const SignUp = () => {
                 uid: userCredential.user.uid,
                 email
             }));
-            navigate("/test");
+            navigate("/transactions");
         } catch (error) {
             console.error('Error signing up:', error);
         }

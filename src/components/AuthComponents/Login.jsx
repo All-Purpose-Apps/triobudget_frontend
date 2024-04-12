@@ -20,7 +20,7 @@ const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             console.log("Logged in successfully!");
-            navigate("/test");
+            navigate("/transactions");
         } catch (error) {
             console.error('Error logging in:', error);
             setErrorMessage(error.message);
@@ -64,6 +64,8 @@ const Login = () => {
                         Close
                     </Button>
                 </Modal.Footer>
+                <p>Forgot Password?</p>
+
             </Modal>
         </div>
     );
