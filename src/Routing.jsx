@@ -15,9 +15,10 @@ import { getUser } from './store/slices/userSlice';
 export default function Routing() {
     const auth = getAuth(app);
     const dispatch = useDispatch();
-
     const isLoggedIn = useSelector(state => state.authSlice.isLoggedIn);
     const [loading, setLoading] = useState(true);
+    const [firebaseUser, setFirebaseUser] = useState(null);
+    const [mongoUser, setMongoUser] = useState(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
@@ -25,8 +26,11 @@ export default function Routing() {
                 getIdToken(user, true).then(idToken => {
                     localStorage.setItem('token', idToken);
                     localStorage.setItem('uid', user.uid);
+                    setFirebaseUser(user);
                     dispatch(setLoginState(true));
-                    dispatch(getUser(user.uid));
+                    dispatch(getUser(user.uid)).then(mongoUser => {
+                        setMongoUser(mongoUser.payload)
+                    });
                 });
             } else {
                 localStorage.removeItem('token');
@@ -38,7 +42,17 @@ export default function Routing() {
         return () => unsubscribe();
     }, [dispatch]);
 
-    if (loading) {
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            console.log('User signed out successfully');
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    };
+
+
+    if (loading && firebaseUser === null && mongoUser === null) {
         return (
             <Container className="text-center p-5">
                 <Spinner animation="border" role="status">
@@ -54,7 +68,7 @@ export default function Routing() {
                 <Route path="/" element={isLoggedIn ?
                     <Navigate replace to="/transactions" /> : <Home />} />
                 <Route path="/transactions/*" element={isLoggedIn ?
-                    <App /> : <Navigate replace to="/" />} />
+                    <App handleSignOut={handleSignOut} firebaseUser={firebaseUser} mongoUser={mongoUser} /> : <Navigate replace to="/" />} />
                 <Route path="*" element={<Navigate replace to="/" />} />
             </Routes></div>
         )
