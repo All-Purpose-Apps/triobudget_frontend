@@ -12,12 +12,9 @@ import { setLoginState } from './store/slices/authSlice';
 import { getUser } from './store/slices/userSlice';
 
 // Page & Component imports
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import SignUp from './Pages/SignUp';
 import Transactions from './Pages/Transactions';
+import Settings from './components/Settings';
 import TopNavBar from './components/TopNavBar';
-import SideBar from './components/SideBar';
 
 function App() {
   const dispatch = useDispatch();
@@ -65,22 +62,19 @@ function App() {
 
   return (
     <Container fluid>
-      {isLoggedIn && <Navigate replace to="/transactions" />}
       <Row>
         <Col className="p-0">
-          <TopNavBar handleSignOut={handleSignOut} />
+          <TopNavBar />
         </Col>
       </Row>
       <Row>
-        <Col md={2}>
-          <SideBar />
-        </Col>
         <Col>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            {isLoggedIn ? <Route path="/transactions" element={<Transactions />} /> : <Route path="*" element={<Navigate replace to="/" />} />}
+            <Route path="/" element={isLoggedIn ? <Navigate replace to="/transactions" /> : <Home />} />
+
+            <Route path="/transactions" element={isLoggedIn ? <Transactions /> : <Navigate replace to="/" />} />
+            <Route path="/settings" element={isLoggedIn ? <Settings /> : <Navigate replace to="/" />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         </Col>
       </Row>

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { createUser } from '../store/slices/userSlice';
-import app from '../utils/firebaseConfig';
+import { createUser } from '../../store/slices/userSlice';
+import app from '../../utils/firebaseConfig';
 
 const auth = getAuth(app);
 
@@ -50,7 +50,7 @@ const SignUp = () => {
                     <div className="form-group" key={field}>
                         <input
                             type={field === 'email' ? 'email' : 'text'}
-                            className="form-control"
+                            className="form-control mb-2"
                             name={field}
                             placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('confirmPassword', 'Confirm Password')}
                             value={formState[field]}

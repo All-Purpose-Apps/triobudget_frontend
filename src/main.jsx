@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
-import App from './App.jsx'
+import EntryPoint from './EntryPoint'
 import store from './store/store'
 import './assets/css/styles.css'
 
@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <EntryPoint />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const SideBar = () => {
+
+const SideBar = ({ handleSignOut }) => {
     return (
         <div className="d-flex flex-column vh-100 bg-primary text-white" style={{ borderRadius: '10px' }}>
             <Nav className="flex-column p-4">
                 <Nav.Item className="mb-2">
                     <h3 className="text-center mb-4">TrioBudget</h3>
                 </Nav.Item>
-                <Nav.Link href="#home" className="text-white p-2 mb-2 bg-secondary rounded">Home</Nav.Link>
-                <Nav.Link href="#about" className="text-white p-2 mb-2 bg-secondary rounded">Accounts</Nav.Link>
-                <Nav.Link href="#services" className="text-white p-2 mb-2 bg-secondary rounded">Transactions</Nav.Link>
-                <Nav.Link href="#contact" className="text-white p-2 mb-2 bg-secondary rounded">Settings</Nav.Link>
+                <Nav.Link as={Link} to="/transactions" className="text-white p-2 mb-2 bg-secondary rounded">Transactions</Nav.Link>
+                <Nav.Link as={Link} to="/settings" className="text-white p-2 mb-2 bg-secondary rounded">Settings</Nav.Link>
+                <Nav.Link className="text-white p-2 mb-2 bg-secondary rounded" onClick={handleSignOut}>Sign Out</Nav.Link>
             </Nav>
         </div>
     );
