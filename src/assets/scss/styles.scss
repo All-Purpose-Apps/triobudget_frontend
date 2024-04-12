@@ -22,3 +22,22 @@
   z-index: 1;
   background-color: #1f2936;
 }
+.nav-link-custom {
+  color: white;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #6c757d; /* Bootstrap secondary color */
+  border-radius: 0.25rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom:focus {
+  background-color: #272b2e; /* Darken on hover/focus */
+  color: #e9ecef; /* Lighter text color on hover/focus */
+}
+
+.nav-link-custom:active {
+  background-color: #012965; /* Even darker on click */
+  color: #f8f9fa; /* Even lighter text color on click */
+}

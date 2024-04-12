@@ -31,10 +31,15 @@ export default function Chart({ transactions, account }) {
         title: { text: account },
         height: 400,
         width: 400,
+        background: {
+            visible: false,
+        },
+        legend: { enabled: false },
         series: [
             {
                 type: "donut",
                 calloutLabelKey: "asset",
+                calloutLabel: { color: "white" },
                 angleKey: "amount",
                 innerRadiusRatio: .8,
                 innerLabels: [
