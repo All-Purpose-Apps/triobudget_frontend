@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import CreatableSelect from 'react-select/creatable';
+import { updateUser } from '../../store/slices/userSlice';
+import { useDispatch } from 'react-redux';
 import { Modal, Button, Form, Row, Col, Spinner } from 'react-bootstrap';
 
 function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }) {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         description: '',
         amount: '',
@@ -32,6 +36,14 @@ function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }
             ...currentFormData,
             [name]: value,
         }));
+    };
+    const handleCategoryChange = (newValue, actionMeta) => {
+        if (actionMeta.action === 'select-option' || actionMeta.action === 'create-option') {
+            setFormData(currentFormData => ({
+                ...currentFormData,
+                category: newValue.value,
+            }));
+        }
     };
 
     const handleSubmit = (e) => {
@@ -65,6 +77,29 @@ function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }
         });
     };
 
+    const [creatingCategory, setCreatingCategory] = useState(false);
+    const handleCreate = (inputValue) => {
+        const u = user
+        const c = Array.isArray(u.categories) ? [...u.categories, inputValue] : [inputValue];
+        setCreatingCategory(true);
+        try {
+            dispatch(updateUser({ id: u.uid, data: { categories: c } }))
+            setFormData({ ...formData, category: inputValue });
+            console.log('Category Created')
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCreatingCategory(false);
+        }
+    }
+    const createOption = (label) => ({
+        label,
+        value: label,
+    });
+    const categoryOptions = formData.transactionType === 'Income' ? ['Income'] : (user.categories || []);
+    const categoryOptionsWithCreate = categoryOptions.map(createOption);
+    const accountOptions = user.accounts || [];
+
     if (isLoading) {
         return (
             <Modal show={show} onHide={handleClose} centered>
@@ -77,7 +112,6 @@ function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }
             </Modal>
         );
     }
-
     return (
         <Modal show={show} onHide={handleClose} centered>
             <Modal.Header closeButton>
@@ -86,8 +120,22 @@ function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Row style={{ justifyContent: 'center' }}>
-                        {/* Form fields */}
-                        {renderFormFields({ formData, handleChange, user })}
+                        <FormField label="Description" type="text" name="description" value={formData.description} onChange={handleChange} />
+                        <FormField label="Amount" type="number" name="amount" value={formData.amount} onChange={handleChange} />
+                        <SelectField label="Transaction Type" name="transactionType" options={['Income', 'Debt']} value={formData.transactionType} onChange={handleChange} />
+                        <Form.Label>Category</Form.Label>
+                        <CreatableSelect
+                            isClearable
+                            isDisabled={creatingCategory}
+                            isLoading={creatingCategory}
+                            onCreateOption={handleCreate}
+                            onChange={handleCategoryChange}
+                            options={categoryOptionsWithCreate}
+                            className="mb-3"
+                            value={categoryOptionsWithCreate.find(option => option.value === formData.category)}
+                        />
+                        <SelectField label="Account" name="account" options={accountOptions} value={formData.account} onChange={handleChange} />
+                        <FormField label="Date" type="date" name="date" value={formData.date} onChange={handleChange} />
                     </Row>
                     <Button variant="primary" type="submit">
                         Submit
@@ -98,21 +146,6 @@ function EnterTransactionModal({ show, handleClose, handleAddTransaction, user }
     );
 }
 
-function renderFormFields({ formData, handleChange, user }) {
-    const categoryOptions = formData.transactionType === 'Income' ? ['Income'] : (user.categories || []);
-    const accountOptions = user.accounts || [];
-
-    return (
-        <>
-            <FormField label="Description" type="text" name="description" value={formData.description} onChange={handleChange} />
-            <FormField label="Amount" type="number" name="amount" value={formData.amount} onChange={handleChange} />
-            <SelectField label="Transaction Type" name="transactionType" options={['Income', 'Debt']} value={formData.transactionType} onChange={handleChange} />
-            <SelectField label="Category" name="category" options={categoryOptions} value={formData.category} onChange={handleChange} disabled={formData.transactionType === 'Income'} />
-            <SelectField label="Account" name="account" options={accountOptions} value={formData.account} onChange={handleChange} />
-            <FormField label="Date" type="date" name="date" value={formData.date} onChange={handleChange} />
-        </>
-    );
-}
 
 function FormField({ label, type, name, value, onChange }) {
     return (

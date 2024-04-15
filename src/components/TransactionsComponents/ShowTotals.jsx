@@ -6,7 +6,7 @@ export default function Chart({ transactions, account }) {
     const uniqueCategories = [...new Set(transactions.map(item => item.category.toLowerCase()))];
     const formattedCategories = uniqueCategories.map(category => category.charAt(0).toUpperCase() + category.slice(1));
     const categoryTotals = formattedCategories.map(category => ({ asset: category, amount: -calculateTotals(category, 'category') }));
-
+    const total = (-calculateTotals(account, 'account')).toFixed(2);
     useEffect(() => {
         setOptions(prevOptions => ({
             ...prevOptions,
@@ -18,17 +18,16 @@ export default function Chart({ transactions, account }) {
                         prevOptions.series[0].innerLabels[0],
                         {
                             ...prevOptions.series[0].innerLabels[1],
-                            text: `$${-calculateTotals(account, 'account').toFixed(2)}`,
+                            text: `$${total}`,
                         },
                     ],
                 },
             ],
         }));
     }, [transactions]);
-
     const [options, setOptions] = useState({
         data: categoryTotals.map(item => ({ ...item, amount: -item.amount })),
-        title: { text: account },
+        title: { text: account, color: "white" },
         height: 400,
         width: 400,
         background: {
@@ -44,7 +43,7 @@ export default function Chart({ transactions, account }) {
                 innerRadiusRatio: .8,
                 innerLabels: [
                     { text: "Total", fontWeight: "bold", color: "white" },
-                    { text: `$${-calculateTotals(account, 'account').toFixed(2)}`, margin: 4, fontSize: 24, color: "white" },
+                    { text: `$${total}`, margin: 4, fontSize: 24, color: "white" },
                 ],
                 innerCircle: { fill: "#223F5B" },
             },
