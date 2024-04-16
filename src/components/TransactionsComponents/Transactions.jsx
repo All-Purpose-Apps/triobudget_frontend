@@ -53,7 +53,6 @@ const Transactions = () => {
                             <Chart transactions={transactions.filter(t => t.account === account)} account={account} />
                         </div>
                     )}
-                    {selectedRows.length > 0 && <Chart transactions={selectedRows} account="Selected" />}
                 </div>
                 {selectedRows.length > 0 ? (
                     <Button variant="danger" className='m-2' onClick={() => handleDelete()}>Delete</Button>

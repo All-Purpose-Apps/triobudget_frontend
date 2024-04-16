@@ -7,6 +7,7 @@ export default function Chart({ transactions, account }) {
     const formattedCategories = uniqueCategories.map(category => category.charAt(0).toUpperCase() + category.slice(1));
     const categoryTotals = formattedCategories.map(category => ({ asset: category, amount: -calculateTotals(category, 'category') }));
     const total = (-calculateTotals(account, 'account')).toFixed(2);
+
     useEffect(() => {
         setOptions(prevOptions => ({
             ...prevOptions,
@@ -25,6 +26,7 @@ export default function Chart({ transactions, account }) {
             ],
         }));
     }, [transactions]);
+
     const [options, setOptions] = useState({
         data: categoryTotals.map(item => ({ ...item, amount: -item.amount })),
         title: { text: account, color: "white" },
