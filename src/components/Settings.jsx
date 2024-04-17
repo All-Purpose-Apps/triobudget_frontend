@@ -1,6 +1,6 @@
 import React from 'react';
-import MKButton from './MKComponents/MKButton';
-import MKAvatar from './MKComponents/MKAvatar';
+import MKButton from '@mkcomponents/MKButton';
+import MKAvatar from '@mkcomponents/MKAvatar';
 
 export default function Settings({ firebaseUser, mongoUser }) {
     return (

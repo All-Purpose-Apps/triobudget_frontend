@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Container, Row, Col, Button, Collapse, Image } from 'react-bootstrap';
-import Login from '../components/AuthComponents/Login';
-import SignUp from '../components/AuthComponents/SignUp';
-import clouds from '../assets/clouds.mp4';
+import Login from '../components/Login';
+import SignUp from '../components/SignUp';
+import clouds from '@assets/clouds.mp4';
 
 export default function EntryPoint() {
     const [showLoginForm, setShowLoginForm] = useState(false);

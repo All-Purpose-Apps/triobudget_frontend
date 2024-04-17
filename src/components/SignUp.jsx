@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { createUser } from '../../store/slices/userSlice';
-import app from '../../utils/firebaseConfig';
+import { createUser } from '../store/slices/userSlice';
+import app from '../utils/firebaseConfig';
 
 const auth = getAuth(app);
 
