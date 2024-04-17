@@ -7,6 +7,8 @@ import SideBar from '../components/SideBar';
 import Settings from '../components/Settings';
 
 function App({ handleSignOut, mongoUser, firebaseUser }) {
+
+
   return (
     <Container fluid style={{ background: 'linear-gradient(21deg, rgba(31,40,54,1) 0%, rgba(80,125,195,1) 50%, rgba(57,70,89,1) 100%)' }}>
       <Row>

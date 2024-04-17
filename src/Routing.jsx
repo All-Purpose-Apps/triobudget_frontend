@@ -1,5 +1,6 @@
 import App from './Pages/App';
 import Home from './Pages/EntryPoint';
+import MobileComingSoon from './Pages/MobileComingSoon';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,6 +20,7 @@ export default function Routing() {
     const [loading, setLoading] = useState(true);
     const [firebaseUser, setFirebaseUser] = useState(null);
     const [mongoUser, setMongoUser] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
@@ -39,8 +41,17 @@ export default function Routing() {
             }
             setLoading(false);
         });
+
         return () => unsubscribe();
     }, [dispatch]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleSignOut = async () => {
         try {
@@ -51,6 +62,9 @@ export default function Routing() {
         }
     };
 
+    if (isMobile) {
+        return <MobileComingSoon />;
+    }
 
     if (loading && firebaseUser === null && mongoUser === null) {
         return (
