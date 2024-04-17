@@ -1,7 +1,7 @@
-import React from 'react'
+import LandingPage from "./LandingPage";
 
 export default function App() {
     return (
-        <div>App</div>
+        <div><LandingPage /></div>
     )
 }
