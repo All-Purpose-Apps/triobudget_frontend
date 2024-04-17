@@ -7,7 +7,7 @@ export default function Chart({ transactions, account }) {
     const formattedCategories = uniqueCategories.map(category => category.charAt(0).toUpperCase() + category.slice(1));
     const categoryTotals = formattedCategories.map(category => ({ asset: category, amount: -calculateTotals(category, 'category') }));
     const total = (-calculateTotals(account, 'account')).toFixed(2);
-
+    const winSize = window.innerWidth / 4.5
     useEffect(() => {
         setOptions(prevOptions => ({
             ...prevOptions,
@@ -27,11 +27,23 @@ export default function Chart({ transactions, account }) {
         }));
     }, [transactions, account]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            window.location.reload();
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     const [options, setOptions] = useState({
         data: categoryTotals.map(item => ({ ...item, amount: -item.amount })),
         title: { text: account, color: "white" },
-        height: 400,
-        width: 400,
+        height: winSize,
+        width: winSize,
         background: {
             visible: false,
         },

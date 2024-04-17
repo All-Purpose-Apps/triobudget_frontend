@@ -121,3 +121,14 @@ $spacers: map-merge(
 .logo-alone {
   width: 70%;
 }
+
+.auth-buttons {
+  background-color: #2a4961;
+  border: none;
+  height: 75px;
+}
+.auth-buttons:hover {
+  background-color: #4cb1ff;
+  border: none;
+  height: 75px;
+}

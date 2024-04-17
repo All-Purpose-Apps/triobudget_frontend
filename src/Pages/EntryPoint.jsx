@@ -31,7 +31,7 @@ export default function EntryPoint() {
                     </Row>
                     <Row className='my-5 mx-2'>
                         <Button onClick={() => handleForms('Login')} aria-controls="loginForm"
-                            aria-expanded={showLoginForm}>Login</Button>
+                            aria-expanded={showLoginForm} className="auth-buttons">Login</Button>
                         <Collapse in={showLoginForm}>
                             <div id="loginForm">
                                 <Login />
@@ -40,7 +40,7 @@ export default function EntryPoint() {
                     </Row>
                     <Row className='my-5 mx-2'>
                         <Button onClick={() => handleForms('SignUp')} aria-controls="signUpForm"
-                            aria-expanded={showSignUpForm}>Sign Up</Button>
+                            aria-expanded={showSignUpForm} className="auth-buttons">Sign Up</Button>
                         <Collapse in={showSignUpForm}>
                             <div id="signUpForm" className="my-4">
                                 <SignUp />
