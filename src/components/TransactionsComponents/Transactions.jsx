@@ -6,7 +6,6 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTransactions, addTransaction, deleteTransaction } from '../../store/slices/transactionSlice';
 import EnterTransaction from './EnterTransaction';
-import AddCategory from './AddCategory';
 //DATA
 import { colDefs, autoSizeStrategy } from '../../utils/ag-grid-data';
 import Chart from './ShowTotals';
@@ -44,18 +43,25 @@ const Transactions = () => {
     }
     return (
         <div>
-            <div className="ag-theme-quartz-dark" style={{ height: '100vh' }}>
-                {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} show={showForm} handleClose={handleClose} />}
-                <Button variant="primary" className="m-2" onClick={() => setShowForm(!showForm)}>Add Transaction</Button>
-                <div className="charts-container" style={{ display: 'flex', justifyContent: 'center' }}>
-                    {uniqueAccounts.map((account, index) =>
-                        <div key={index}>
-                            <Chart transactions={transactions.filter(t => t.account === account)} account={account} />
-                        </div>
-                    )}
-                </div>
+            {showForm && user && <EnterTransaction handleAddTransaction={handleAddTransaction} user={user} show={showForm} handleClose={handleClose} />}
+            <button className="icon-button" onClick={() => setShowForm(!showForm)} aria-label="Add Transaction">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" className="circle" />
+                    <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <span className="tooltip">Add Transaction</span>
+            </button>
+            <div className="charts-container" style={{ display: 'flex', justifyContent: 'center' }}>
+                {uniqueAccounts.map((account, index) =>
+                    <div key={index}>
+                        <Chart transactions={transactions.filter(t => t.account === account)} account={account} />
+                    </div>
+                )}
+            </div>
+
+            <div className="ag-theme-quartz-dark" style={{ height: '500px', width: '99%' }}>
                 {selectedRows.length > 0 ? (
-                    <Button variant="danger" className='m-2' onClick={() => handleDelete()}>Delete</Button>
+                    <Button variant="danger" className='m-2 delete-button' onClick={() => handleDelete()}>Delete</Button>
                 ) : null}
                 <AgGridReact
                     rowData={transactions}

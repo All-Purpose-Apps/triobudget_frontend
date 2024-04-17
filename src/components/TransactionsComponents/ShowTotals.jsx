@@ -25,7 +25,7 @@ export default function Chart({ transactions, account }) {
                 },
             ],
         }));
-    }, [transactions]);
+    }, [transactions, account]);
 
     const [options, setOptions] = useState({
         data: categoryTotals.map(item => ({ ...item, amount: -item.amount })),

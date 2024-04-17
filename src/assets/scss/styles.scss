@@ -41,3 +41,62 @@
   background-color: #012965; /* Even darker on click */
   color: #f8f9fa; /* Even lighter text color on click */
 }
+
+.icon-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.icon-button svg {
+  width: 50px;
+  height: 50px;
+}
+
+.icon-button .circle {
+  fill: #007bff;
+  transition: fill 0.3s;
+}
+
+.icon-button:hover .circle {
+  fill: #0056b3;
+}
+
+.icon-button:active .circle {
+  fill: #004085;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: relative;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -40px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.delete-button {
+  position: absolute;
+  z-index: 1;
+  top: 400px;
+}
+
+.icon-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}

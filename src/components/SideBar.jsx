@@ -5,7 +5,7 @@ import tbLogoAloneLight from '../assets/tbLogoAloneLight.png';
 
 const SideBar = () => {
     return (
-        <div className="d-flex flex-column vh-100 bg-primary text-white" style={{ borderRadius: '10px' }}>
+        <div className="d-flex flex-column bg-primary text-white" style={{ borderRadius: '10px', height: '99%' }}>
             <Nav className="flex-column p-4">
                 <Nav.Item className="mb-2 text-center">
                     <Image fluid src={tbLogoAloneLight} style={{ width: '50%' }} />

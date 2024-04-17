@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000/api_v1/transactions';
+const baseURL = 'http://localhost:3000/api_v1/transactions' || `${import.meta.env.VITE_DATABASE_URL}api_v1/transactions`;
 
 const getToken = () => localStorage.getItem('token');
 
