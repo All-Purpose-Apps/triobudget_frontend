@@ -8,6 +8,7 @@ export default function Chart({ transactions, account }) {
     const categoryTotals = formattedCategories.map(category => ({ asset: category, amount: -calculateTotals(category, 'category') }));
     const total = (-calculateTotals(account, 'account')).toFixed(2);
     const winSize = window.innerWidth / 4.5
+
     useEffect(() => {
         setOptions(prevOptions => ({
             ...prevOptions,
@@ -57,7 +58,7 @@ export default function Chart({ transactions, account }) {
                 innerRadiusRatio: .8,
                 innerLabels: [
                     { text: "Total", fontWeight: "bold", color: "white" },
-                    { text: `$${total}`, margin: 4, fontSize: 24, color: "white" },
+                    { text: `$${total}`, fontSize: 24, color: "white" },
                 ],
                 innerCircle: { fill: "#223F5B" },
             },

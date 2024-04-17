@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 old
+
+src/components/mkcomponents
+src/assets/images
+src/assets/theme

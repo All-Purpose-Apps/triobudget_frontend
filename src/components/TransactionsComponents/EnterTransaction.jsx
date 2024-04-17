@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import { updateUser } from '../../store/slices/userSlice';
+import { updateUser } from '@store/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { Modal, Button, Form, Row, Col, Spinner } from 'react-bootstrap';
 

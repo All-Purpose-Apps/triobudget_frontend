@@ -1,6 +1,6 @@
-import App from './Pages/App';
-import Home from './Pages/EntryPoint';
-import MobileComingSoon from './Pages/MobileComingSoon';
+import App from '@pages/App';
+import Home from '@pages/EntryPoint';
+import MobileComingSoon from '@pages/MobileComingSoon';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,10 +8,10 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
 // Firebase imports
 import { getAuth, onAuthStateChanged, getIdToken, signOut } from 'firebase/auth';
-import app from './utils/firebaseConfig';
+import app from '@utils/firebaseConfig';
 // Redux actions
-import { setLoginState } from './store/slices/authSlice';
-import { getUser } from './store/slices/userSlice';
+import { setLoginState } from '@store/slices/authSlice';
+import { getUser } from '@store/slices/userSlice';
 
 export default function Routing() {
     const auth = getAuth(app);
